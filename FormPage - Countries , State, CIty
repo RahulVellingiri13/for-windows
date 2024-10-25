@@ -1,0 +1,1147 @@
+// import React from 'react';
+// import { useForm } from 'react-hook-form';
+// import './FormPage.css';
+// const FormPage = () => {
+//   const { register, handleSubmit, formState: { errors } } = useForm();
+
+//   const onSubmit = (data) => {
+//     console.log(data);
+//   };
+
+//   return (
+//     <div className="form-container">
+//       <form className="form-wrapper" onSubmit={handleSubmit(onSubmit)}>
+//         <h2 className="form-title">Fill the details below:</h2>
+
+//         {/* Name field */}
+//         <div className="form-row">
+//           <div className="form-group full-width">
+//             <label>Name *</label>
+//             <input
+//               type="text"
+//               {...register('name', { required: true })}
+//               placeholder="Enter name"
+//             />
+//             {errors.name && <p className="error-message">Name is required</p>}
+//           </div>
+//         </div>
+
+//         {/* Mobile Number and Email fields */}
+//         <div className="form-row">
+//           <div className="form-group">
+//             <label>Mobile Number *</label>
+//             <input
+//               type="tel"
+//               {...register('mobile', { required: true })}
+//               placeholder="Enter your mobile number"
+//             />
+//             {errors.mobile && <p className="error-message">Mobile number is required</p>}
+//           </div>
+
+//           <div className="form-group">
+//             <label>Email *</label>
+//             <input
+//               type="email"
+//               {...register('email', { required: true })}
+//               placeholder="Enter your email"
+//             />
+//             {errors.email && <p className="error-message">Email is required</p>}
+//           </div>
+//         </div>
+
+//         {/* Country and State */}
+//         <div className="form-row">
+//           <div className="form-group">
+//             <label>Country *</label>
+//             <select {...register('country', { required: true })}>
+//               <option value="">Select your Country</option>
+//               <option value="India">India</option>
+//               <option value="USA">USA</option>
+//             </select>
+//             {errors.country && <p className="error-message">Country is required</p>}
+//           </div>
+
+//           <div className="form-group">
+//             <label>State *</label>
+//             <select {...register('state', { required: true })}>
+//               <option value="">Select your State</option>
+//               <option value="Maharashtra">Maharashtra</option>
+//               <option value="Karnataka">Karnataka</option>
+//             </select>
+//             {errors.state && <p className="error-message">State is required</p>}
+//           </div>
+//         </div>
+
+//         {/* City and Pincode */}
+//         <div className="form-row">
+//           <div className="form-group">
+//             <label>City *</label>
+//             <select {...register('city', { required: true })}>
+//               <option value="">Select your City</option>
+//               <option value="Mumbai">Mumbai</option>
+//               <option value="Bangalore">Bangalore</option>
+//             </select>
+//             {errors.city && <p className="error-message">City is required</p>}
+//           </div>
+
+//           <div className="form-group">
+//             <label>Pincode *</label>
+//             <input
+//               type="text"
+//               {...register('pincode', { required: true })}
+//               placeholder="Enter your pincode"
+//             />
+//             {errors.pincode && <p className="error-message">Pincode is required</p>}
+//           </div>
+//         </div>
+
+//         {/* Address */}
+//         <div className="form-row">
+//           <div className="form-group full-width">
+//             <label>Address *</label>
+//             <textarea
+//               {...register('address', { required: true })}
+//               placeholder="Enter your Address"
+//             />
+//             {errors.address && <p className="error-message">Address is required</p>}
+//           </div>
+//         </div>
+
+//         {/* Terms and Conditions */}
+//         <div className="terms">
+//           By clicking submit, I agree to{' '}
+//           <a href="/terms-and-conditions" target="_blank">
+//             Terms and Conditions
+//           </a>{' '}
+//           &{' '}
+//           <a href="/privacy-policy" target="_blank">
+//             Privacy Policy
+//           </a>
+//         </div>
+
+//         {/* Submit Button */}
+//         <button className="submit-btn" type="submit">Submit</button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default FormPage;
+
+//form validation using yup and formik
+
+// import React from "react";
+// import { Formik, Form, Field, ErrorMessage } from "formik";
+// import * as Yup from "yup";
+// import "./FormPage.css";
+
+// // Validation schema using Yup
+// const validationSchema = Yup.object({
+//   name: Yup.string()
+//     .matches(
+//       /^[A-Za-z]+$/,
+//       "Name must contain only letters, no spaces or digits"
+//     )
+//     .required("Name is required"),
+//   mobile: Yup.string()
+//     .matches(
+//       /^\d{10}$/,
+//       "Mobile number must be 10 digits without spaces or letters"
+//     )
+//     .required("Mobile number is required"),
+//   email: Yup.string()
+//     .email("Invalid email format")
+//     .required("Email is required"),
+//   country: Yup.string()
+//     .matches(
+//       /^[A-Za-z]+$/,
+//       "Country must contain only letters, no spaces or digits"
+//     )
+//     .required("Country is required"),
+//   state: Yup.string()
+//     .matches(
+//       /^[A-Za-z]+$/,
+//       "State must contain only letters, no spaces or digits"
+//     )
+//     .required("State is required"),
+//   city: Yup.string().required("City is required"),
+//   pincode: Yup.string()
+//     .matches(/^\d{6}$/, "Pincode must be 6 digits")
+//     .required("Pincode is required"),
+//   address: Yup.string().required("Address is required"),
+// });
+
+// const FormPage = () => {
+//   const initialValues = {
+//     name: "",
+//     mobile: "",
+//     email: "",
+//     country: "",
+//     state: "",
+//     city: "",
+//     pincode: "",
+//     address: "",
+//   };
+
+//   const onSubmit = (values) => {
+//     console.log("Form data", values);
+//   };
+
+//   return (
+//     <div className="form-container">
+//       <Formik
+//         initialValues={initialValues}
+//         validationSchema={validationSchema}
+//         onSubmit={onSubmit}
+//       >
+//         {() => (
+//           <Form className="form-wrapper">
+//             <h2 className="form-title">Fill the details below:</h2>
+
+//             {/* Name field */}
+//             <div className="form-row">
+//               <div className="form-group full-width">
+//                 <label>Name *</label>
+//                 <Field type="text" name="name" placeholder="Enter name" />
+//                 <ErrorMessage
+//                   name="name"
+//                   component="p"
+//                   className="error-message"
+//                 />
+//               </div>
+//             </div>
+
+//             {/* Mobile and Email fields side by side */}
+//             <div className="form-row">
+//               <div className="form-group">
+//                 <label>Mobile Number *</label>
+//                 <Field
+//                   type="text"
+//                   name="mobile"
+//                   placeholder="Enter your mobile number"
+//                 />
+//                 <ErrorMessage
+//                   name="mobile"
+//                   component="p"
+//                   className="error-message"
+//                 />
+//               </div>
+
+//               <div className="form-group">
+//                 <label>Email *</label>
+//                 <Field
+//                   type="email"
+//                   name="email"
+//                   placeholder="Enter your email"
+//                 />
+//                 <ErrorMessage
+//                   name="email"
+//                   component="p"
+//                   className="error-message"
+//                 />
+//               </div>
+//             </div>
+
+//             {/* Country and State */}
+//             <div className="form-row">
+//               <div className="form-group">
+//                 <label>Country *</label>
+//                 <Field as="select" name="country">
+//                   <option value="">Select your Country</option>
+//                   <option value="India">India</option>
+//                   <option value="USA">USA</option>
+//                 </Field>
+//                 <ErrorMessage
+//                   name="country"
+//                   component="p"
+//                   className="error-message"
+//                 />
+//               </div>
+
+//               <div className="form-group">
+//                 <label>State *</label>
+//                 <Field as="select" name="state">
+//                   <option value="">Select your State</option>
+//                   <option value="Maharashtra">Maharashtra</option>
+//                   <option value="Karnataka">Karnataka</option>
+//                 </Field>
+//                 <ErrorMessage
+//                   name="state"
+//                   component="p"
+//                   className="error-message"
+//                 />
+//               </div>
+//             </div>
+
+//             {/* City and Pincode */}
+//             <div className="form-row">
+//               <div className="form-group">
+//                 <label>City *</label>
+//                 <Field as="select" name="city">
+//                   <option value="">Select your City</option>
+//                   <option value="Mumbai">Mumbai</option>
+//                   <option value="Bangalore">Bangalore</option>
+//                 </Field>
+//                 <ErrorMessage
+//                   name="city"
+//                   component="p"
+//                   className="error-message"
+//                 />
+//               </div>
+
+//               <div className="form-group">
+//                 <label>Pincode *</label>
+//                 <Field
+//                   type="text"
+//                   name="pincode"
+//                   placeholder="Enter your pincode"
+//                 />
+//                 <ErrorMessage
+//                   name="pincode"
+//                   component="p"
+//                   className="error-message"
+//                 />
+//               </div>
+//             </div>
+
+//             {/* Address */}
+//             <div className="form-row">
+//               <div className="form-group full-width">
+//                 <label>Address *</label>
+//                 <Field
+//                   as="textarea"
+//                   name="address"
+//                   placeholder="Enter your address"
+//                 />
+//                 <ErrorMessage
+//                   name="address"
+//                   component="p"
+//                   className="error-message"
+//                 />
+//               </div>
+//             </div>
+
+//             {/* Terms and Conditions */}
+//             <div className="terms">
+//               By clicking submit, I agree to{" "}
+//               <a href="/terms-and-conditions" target="_blank">
+//                 Terms and Conditions
+//               </a>{" "}
+//               &{" "}
+//               <a href="/privacy-policy" target="_blank">
+//                 Privacy Policy
+//               </a>
+//             </div>
+
+//             {/* Submit Button */}
+//             <button className="submit-btn" type="submit">
+//               Submit
+//             </button>
+//           </Form>
+//         )}
+//       </Formik>
+//     </div>
+//   );
+// };
+
+// export default FormPage;
+
+// import React from "react";
+// import { useForm } from "react-hook-form";
+// import * as Yup from "yup";
+// import { yupResolver } from "@hookform/resolvers/yup";
+// import "./FormPage.css";
+
+// // Validation schema using Yup
+// const validationSchema = Yup.object({
+//   name: Yup.string()
+//     .matches(
+//       /^[A-Za-z]+$/,
+//       "Name must contain only letters, no spaces or digits"
+//     )
+//     .required("Name is required"),
+//   mobile: Yup.string()
+//     .matches(
+//       /^\d{10}$/,
+//       "Mobile number must be 10 digits without spaces or letters"
+//     )
+//     .required("Mobile number is required"),
+//   email: Yup.string()
+//     .email("Invalid email format")
+//     .required("Email is required"),
+//   country: Yup.string()
+//     .matches(
+//       /^[A-Za-z]+$/,
+//       "Country must contain only letters, no spaces or digits"
+//     )
+//     .required("Country is required"),
+//   state: Yup.string()
+//     .matches(
+//       /^[A-Za-z]+$/,
+//       "State must contain only letters, no spaces or digits"
+//     )
+//     .required("State is required"),
+//   city: Yup.string().required("City is required"),
+//   pincode: Yup.string()
+//     .matches(/^\d{6}$/, "Pincode must be 6 digits")
+//     .required("Pincode is required"),
+//   address: Yup.string().required("Address is required"),
+// });
+
+// const FormPage = () => {
+//   const {
+//     register,
+//     handleSubmit,
+//     formState: { errors, isSubmitting },
+//   } = useForm({
+//     resolver: yupResolver(validationSchema),
+//     mode: "onChange", // Validate on change
+//   });
+
+//   const onSubmit = async (data) => {
+//     console.log("Form data", data);
+//     // Simulate an API call
+//     await new Promise((resolve) => setTimeout(resolve, 1000));
+//     alert("Form submitted successfully!");
+//   };
+
+//   return (
+//     <div className="form-container">
+//       <form className="form-wrapper" onSubmit={handleSubmit(onSubmit)}>
+//         <h2 className="form-title">Fill the details below:</h2>
+
+//         {/* Name field */}
+//         <div className="form-row">
+//           <div className="form-group full-width">
+//             <label>Name *</label>
+//             <input
+//               type="text"
+//               name="name"
+//               placeholder="Enter name"
+//               {...register("name")}
+//             />
+//             {errors.name && <p className="error-message">{errors.name.message}</p>}
+//           </div>
+//         </div>
+
+//         {/* Mobile and Email fields side by side */}
+//         <div className="form-row">
+//           <div className="form-group">
+//             <label>Mobile Number *</label>
+//             <input
+//               type="text"
+//               name="mobile"
+//               placeholder="Enter your mobile number"
+//               {...register("mobile")}
+//             />
+//             {errors.mobile && <p className="error-message">{errors.mobile.message}</p>}
+//           </div>
+
+//           <div className="form-group">
+//             <label>Email *</label>
+//             <input
+//               type="email"
+//               name="email"
+//               placeholder="Enter your email"
+//               {...register("email")}
+//             />
+//             {errors.email && <p className="error-message">{errors.email.message}</p>}
+//           </div>
+//         </div>
+
+//         {/* Country and State */}
+//         <div className="form-row">
+//           <div className="form-group">
+//             <label>Country *</label>
+//             <select name="country" {...register("country")}>
+//               <option value="">Select your Country</option>
+//               <option value="India">India</option>
+//               <option value="USA">USA</option>
+//             </select>
+//             {errors.country && <p className="error-message">{errors.country.message}</p>}
+//           </div>
+
+//           <div className="form-group">
+//             <label>State *</label>
+//             <select name="state" {...register("state")}>
+//               <option value="">Select your State</option>
+//               <option value="Maharashtra">Maharashtra</option>
+//               <option value="Karnataka">Karnataka</option>
+//             </select>
+//             {errors.state && <p className="error-message">{errors.state.message}</p>}
+//           </div>
+//         </div>
+
+//         {/* City and Pincode */}
+//         <div className="form-row">
+//           <div className="form-group">
+//             <label>City *</label>
+//             <select name="city" {...register("city")}>
+//               <option value="">Select your City</option>
+//               <option value="Mumbai">Mumbai</option>
+//               <option value="Bangalore">Bangalore</option>
+//             </select>
+//             {errors.city && <p className="error-message">{errors.city.message}</p>}
+//           </div>
+
+//           <div className="form-group">
+//             <label>Pincode *</label>
+//             <input
+//               type="text"
+//               name="pincode"
+//               placeholder="Enter your pincode"
+//               {...register("pincode")}
+//             />
+//             {errors.pincode && <p className="error-message">{errors.pincode.message}</p>}
+//           </div>
+//         </div>
+
+//         {/* Address */}
+//         <div className="form-row">
+//           <div className="form-group full-width">
+//             <label>Address *</label>
+//             <textarea
+//               name="address"
+//               placeholder="Enter your address"
+//               {...register("address")}
+//             ></textarea>
+//             {errors.address && <p className="error-message">{errors.address.message}</p>}
+//           </div>
+//         </div>
+
+//         {/* Terms and Conditions */}
+//         <div className="terms">
+//           By clicking submit, I agree to{" "}
+//           <a href="/terms-and-conditions" target="_blank">
+//             Terms and Conditions
+//           </a>{" "}
+//           &{" "}
+//           <a href="/privacy-policy" target="_blank">
+//             Privacy Policy
+//           </a>
+//         </div>
+
+//         {/* Submit Button */}
+//         <button className="submit-btn" type="submit" disabled={isSubmitting}>
+//           {isSubmitting ? "Submitting..." : "Submit"}
+//         </button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default FormPage;
+
+// import React from "react";
+// import { useForm } from "react-hook-form";
+// import * as Yup from "yup";
+// import { yupResolver } from "@hookform/resolvers/yup";
+// import axios from 'axios'; // Import Axios
+// import "./FormPage.css";
+
+// // Validation schema using Yup
+// const validationSchema = Yup.object({
+//   name: Yup.string()
+//     .matches(
+//       /^[A-Za-z]+$/,
+//       "Name must contain only letters, no spaces or digits"
+//     )
+//     .required("Name is required"),
+//   mobile: Yup.string()
+//     .matches(
+//       /^\d{10}$/,
+//       "Mobile number must be 10 digits without spaces or letters"
+//     )
+//     .required("Mobile number is required"),
+//   email: Yup.string()
+//     .email("Invalid email format")
+//     .required("Email is required"),
+//   country: Yup.string()
+//     .matches(
+//       /^[A-Za-z]+$/,
+//       "Country must contain only letters, no spaces or digits"
+//     )
+//     .required("Country is required"),
+//   state: Yup.string()
+//     .matches(
+//       /^[A-Za-z]+$/,
+//       "State must contain only letters, no spaces or digits"
+//     )
+//     .required("State is required"),
+//   city: Yup.string().required("City is required"),
+//   pincode: Yup.string()
+//     .matches(/^\d{6}$/, "Pincode must be 6 digits")
+//     .required("Pincode is required"),
+//   address: Yup.string().required("Address is required"),
+// });
+
+// const FormPage = () => {
+//   const {
+//     register,
+//     handleSubmit,
+//     formState: { errors, isSubmitting },
+//   } = useForm({
+//     resolver: yupResolver(validationSchema),
+//     mode: "onChange", // Validate on change
+//   });
+
+//   const onSubmit = async (data) => {
+//     console.log("Form data", data);
+//     try {
+//       // Make the API call using Axios
+//       const response = await axios.post('http://localhost:3001/api/createForm', data);
+//       console.log('Response:', response.data);
+//       alert("Form submitted successfully!");
+//     } catch (error) {
+//       console.error("Error submitting form", error);
+//       alert("There was an error submitting the form.");
+//     }
+//   };
+
+//   return (
+//     <div className="form-container">
+//       <form className="form-wrapper" onSubmit={handleSubmit(onSubmit)}>
+//         <h2 className="form-title">Fill the details below:</h2>
+
+//         {/* Name field */}
+//         <div className="form-row">
+//           <div className="form-group full-width">
+//             <label>Name *</label>
+//             <input
+//               type="text"
+//               name="name"
+//               placeholder="Enter name"
+//               {...register("name")}
+//             />
+//             {errors.name && <p className="error-message">{errors.name.message}</p>}
+//           </div>
+//         </div>
+
+//         {/* Mobile and Email fields side by side */}
+//         <div className="form-row">
+//           <div className="form-group">
+//             <label>Mobile Number *</label>
+//             <input
+//               type="text"
+//               name="mobile"
+//               placeholder="Enter your mobile number"
+//               {...register("mobileNumber")}
+//             />
+//             {errors.mobile && <p className="error-message">{errors.mobile.message}</p>}
+//           </div>
+
+//           <div className="form-group">
+//             <label>Email *</label>
+//             <input
+//               type="email"
+//               name="email"
+//               placeholder="Enter your email"
+//               {...register("email")}
+//             />
+//             {errors.email && <p className="error-message">{errors.email.message}</p>}
+//           </div>
+//         </div>
+
+//         {/* Country and State */}
+//         <div className="form-row">
+//           <div className="form-group">
+//             <label>Country *</label>
+//             <select name="country" {...register("country")}>
+//               <option value="">Select your Country</option>
+//               <option value="India">India</option>
+//               <option value="USA">USA</option>
+//             </select>
+//             {errors.country && <p className="error-message">{errors.country.message}</p>}
+//           </div>
+
+//           <div className="form-group">
+//             <label>State *</label>
+//             <select name="state" {...register("state")}>
+//               <option value="">Select your State</option>
+//               <option value="Maharashtra">Maharashtra</option>
+//               <option value="Karnataka">Karnataka</option>
+//             </select>
+//             {errors.state && <p className="error-message">{errors.state.message}</p>}
+//           </div>
+//         </div>
+
+//         {/* City and Pincode */}
+//         <div className="form-row">
+//           <div className="form-group">
+//             <label>City *</label>
+//             <select name="city" {...register("city")}>
+//               <option value="">Select your City</option>
+//               <option value="Mumbai">Mumbai</option>
+//               <option value="Bangalore">Bangalore</option>
+//             </select>
+//             {errors.city && <p className="error-message">{errors.city.message}</p>}
+//           </div>
+
+//           <div className="form-group">
+//             <label>Pincode *</label>
+//             <input
+//               type="text"
+//               name="pincode"
+//               placeholder="Enter your pincode"
+//               {...register("pincode")}
+//             />
+//             {errors.pincode && <p className="error-message">{errors.pincode.message}</p>}
+//           </div>
+//         </div>
+
+//         {/* Address */}
+//         <div className="form-row">
+//           <div className="form-group full-width">
+//             <label>Address *</label>
+//             <textarea
+//               name="address"
+//               placeholder="Enter your address"
+//               {...register("address")}
+//             ></textarea>
+//             {errors.address && <p className="error-message">{errors.address.message}</p>}
+//           </div>
+//         </div>
+
+//         {/* Terms and Conditions */}
+//         <div className="terms">
+//           By clicking submit, I agree to{" "}
+//           <a href="/terms-and-conditions" target="_blank">
+//             Terms and Conditions
+//           </a>{" "}
+//           &{" "}
+//           <a href="/privacy-policy" target="_blank">
+//             Privacy Policy
+//           </a>
+//         </div>
+
+//         {/* Submit Button */}
+//         <button className="submit-btn" type="submit" disabled={isSubmitting}>
+//           {isSubmitting ? "Submitting..." : "Submit"}
+//         </button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default FormPage;
+
+// import React from "react";
+// import { useForm } from "react-hook-form";
+// import * as Yup from "yup";
+// import { yupResolver } from "@hookform/resolvers/yup";
+// import axios from "axios"; // Import Axios
+// import "./FormPage.css";
+
+// // Validation schema using Yup
+// const validationSchema = Yup.object({
+//   name: Yup.string()
+//     .matches(
+//       /^[A-Za-z]+$/,
+//       "Name must contain only letters, no spaces or digits"
+//     )
+//     .required("Name is required"),
+//   mobileNumber: Yup.string() // Ensure this matches the form input
+//     .matches(
+//       /^\d{10}$/,
+//       "Mobile number must be 10 digits without spaces or letters"
+//     )
+//     .required("Mobile number is required"),
+//   email: Yup.string()
+//     .email("Invalid email format")
+//     .required("Email is required"),
+//   country: Yup.string()
+//     .matches(
+//       /^[A-Za-z]+$/,
+//       "Country must contain only letters, no spaces or digits"
+//     )
+//     .required("Country is required"),
+//   state: Yup.string()
+//     .matches(
+//       /^[A-Za-z]+$/,
+//       "State must contain only letters, no spaces or digits"
+//     )
+//     .required("State is required"),
+//   city: Yup.string().required("City is required"),
+//   pincode: Yup.string()
+//     .matches(/^\d{6}$/, "Pincode must be 6 digits")
+//     .required("Pincode is required"),
+//   address: Yup.string().required("Address is required"),
+// });
+
+// const FormPage = () => {
+//   const {
+//     register,
+//     handleSubmit,
+//     reset, // Destructure reset function
+//     formState: { errors, isSubmitting },
+//   } = useForm({
+//     resolver: yupResolver(validationSchema),
+//     mode: "onChange", // Validate on change
+//   });
+
+//   const onSubmit = async (data) => {
+//     console.log("Form data", data);
+//     try {
+//       // Make the API call using Axios
+//       const response = await axios.post(
+//         "http://localhost:3001/api/createForm",
+//         data
+//       );
+//       console.log("Response:", response.data);
+//       alert("Form submitted successfully!");
+
+//       // Reset the form fields after successful submission
+//       reset();
+//     } catch (error) {
+//       console.error("Error submitting form", error);
+//       alert("There was an error submitting the form.");
+//     }
+//   };
+
+//   return (
+//     <div className="form-container">
+//       <form className="form-wrapper" onSubmit={handleSubmit(onSubmit)}>
+//         <h2 className="form-title">Fill the details below:</h2>
+
+//         {/* Name field */}
+//         <div className="form-row">
+//           <div className="form-group full-width">
+//             <label>Name *</label>
+//             <input
+//               type="text"
+//               name="name"
+//               placeholder="Enter name"
+//               {...register("name")}
+//             />
+//             {errors.name && (
+//               <p className="error-message">{errors.name.message}</p>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* Mobile and Email fields side by side */}
+//         <div className="form-row">
+//           <div className="form-group">
+//             <label>Mobile Number *</label>
+//             <input
+//               type="text"
+//               name="mobileNumber" // Ensure this matches the validation schema
+//               placeholder="Enter your mobile number"
+//               {...register("mobileNumber")} // Ensure this matches the validation schema
+//             />
+//             {errors.mobileNumber && ( // Update this line to use the correct error reference
+//               <p className="error-message">{errors.mobileNumber.message}</p>
+//             )}
+//           </div>
+
+//           <div className="form-group">
+//             <label>Email *</label>
+//             <input
+//               type="email"
+//               name="email"
+//               placeholder="Enter your email"
+//               {...register("email")}
+//             />
+//             {errors.email && (
+//               <p className="error-message">{errors.email.message}</p>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* Country and State */}
+//         <div className="form-row">
+//           <div className="form-group">
+//             <label>Country *</label>
+//             <select name="country" {...register("country")}>
+//               <option value="">Select your Country</option>
+//               <option value="India">India</option>
+//               <option value="USA">USA</option>
+//             </select>
+//             {errors.country && (
+//               <p className="error-message">{errors.country.message}</p>
+//             )}
+//           </div>
+
+//           <div className="form-group">
+//             <label>State *</label>
+//             <select name="state" {...register("state")}>
+//               <option value="">Select your State</option>
+//               <option value="Maharashtra">Maharashtra</option>
+//               <option value="Karnataka">Karnataka</option>
+//             </select>
+//             {errors.state && (
+//               <p className="error-message">{errors.state.message}</p>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* City and Pincode */}
+//         <div className="form-row">
+//           <div className="form-group">
+//             <label>City *</label>
+//             <select name="city" {...register("city")}>
+//               <option value="">Select your City</option>
+//               <option value="Mumbai">Mumbai</option>
+//               <option value="Bangalore">Bangalore</option>
+//             </select>
+//             {errors.city && (
+//               <p className="error-message">{errors.city.message}</p>
+//             )}
+//           </div>
+
+//           <div className="form-group">
+//             <label>Pincode *</label>
+//             <input
+//               type="text"
+//               name="pincode"
+//               placeholder="Enter your pincode"
+//               {...register("pincode")}
+//             />
+//             {errors.pincode && (
+//               <p className="error-message">{errors.pincode.message}</p>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* Address */}
+//         <div className="form-row">
+//           <div className="form-group full-width">
+//             <label>Address *</label>
+//             <textarea
+//               name="address"
+//               placeholder="Enter your address"
+//               {...register("address")}
+//             ></textarea>
+//             {errors.address && (
+//               <p className="error-message">{errors.address.message}</p>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* Terms and Conditions */}
+//         <div className="terms">
+//           By clicking submit, I agree to{" "}
+//           <a href="/terms-and-conditions" target="_blank">
+//             Terms and Conditions
+//           </a>{" "}
+//           &{" "}
+//           <a href="/privacy-policy" target="_blank">
+//             Privacy Policy
+//           </a>
+//         </div>
+
+//         {/* Submit Button */}
+//         <button className="submit-btn" type="submit" disabled={isSubmitting}>
+//           {isSubmitting ? "Submitting..." : "Submit"}
+//         </button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default FormPage;
+
+
+
+
+///-------
+
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
+import "./FormPage.css";
+
+// Validation schema using Yup
+const validationSchema = Yup.object({
+  name: Yup.string().matches(/^[A-Za-z]+$/, "Name must contain only letters, no spaces or digits").required("Name is required"),
+  mobileNumber: Yup.string().matches(/^\d{10}$/, "Mobile number must be 10 digits without spaces or letters").required("Mobile number is required"),
+  email: Yup.string().email("Invalid email format").required("Email is required"),
+  country: Yup.string().required("Country is required"),
+  state: Yup.string().required("State is required"),
+  city: Yup.string().required("City is required"),
+  pincode: Yup.string().matches(/^\d{6}$/, "Pincode must be 6 digits").required("Pincode is required"),
+  address: Yup.string().required("Address is required"),
+});
+
+const FormPage = () => {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
+    resolver: yupResolver(validationSchema),
+    mode: "onChange",
+  });
+
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedState, setSelectedState] = useState("");
+
+  // Fetch countries on component mount
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get("https://restcountries.com/v3.1/all");
+        const countryList = response.data.map(country => ({
+          name: country.name.common,
+          alpha2Code: country.cca2,
+        })).sort((a, b) => a.name.localeCompare(b.name));
+        setCountries(countryList);
+      } catch (error) {
+        console.error("Error fetching countries", error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  // Fetch states when a country is selected
+  const handleCountryChange = async (event) => {
+    const selectedCountryName = event.target.value;
+    setSelectedCountry(selectedCountryName);
+    setStates([]); // Reset states and cities
+    setCities([]);
+
+    try {
+      // Fetch states based on the selected country
+      const response = await axios.post("https://countriesnow.space/api/v0.1/countries/states", {
+        country: selectedCountryName
+      });
+      const stateList = response.data.data.states || [];
+      setStates(stateList.sort((a, b) => a.name.localeCompare(b.name)));
+    } catch (error) {
+      console.error("Error fetching states", error);
+    }
+  };
+
+  // Fetch cities when a state is selected
+  const handleStateChange = async (event) => {
+    const selectedStateName = event.target.value;
+    setSelectedState(selectedStateName);
+    setCities([]);
+
+    try {
+      // Fetch cities based on the selected state
+      const response = await axios.post("https://countriesnow.space/api/v0.1/countries/state/cities", {
+        country: selectedCountry,
+        state: selectedStateName
+      });
+      const cityList = response.data.data || [];
+      setCities(cityList.sort((a, b) => a.localeCompare(b)));
+    } catch (error) {
+      console.error("Error fetching cities", error);
+    }
+  };
+
+  const onSubmit = async (data) => {
+    console.log("Form data", data);
+    try {
+      const response = await axios.post("http://localhost:3001/api/createForm", data);
+      console.log("Response:", response.data);
+      alert("Form submitted successfully!");
+      reset();
+    } catch (error) {
+      console.error("Error submitting form", error);
+      alert("There was an error submitting the form.");
+    }
+  };
+
+  return (
+    <div className="form-container">
+      <form className="form-wrapper" onSubmit={handleSubmit(onSubmit)}>
+        <h2 className="form-title">Fill the details below:</h2>
+
+        {/* Name field */}
+        <div className="form-row">
+          <div className="form-group full-width">
+            <label>Name *</label>
+            <input type="text" name="name" placeholder="Enter name" {...register("name")} />
+            {errors.name && <p className="error-message">{errors.name.message}</p>}
+          </div>
+        </div>
+
+        {/* Mobile and Email fields */}
+        <div className="form-row">
+          <div className="form-group">
+            <label>Mobile Number *</label>
+            <input type="text" name="mobileNumber" placeholder="Enter your mobile number" {...register("mobileNumber")} />
+            {errors.mobileNumber && <p className="error-message">{errors.mobileNumber.message}</p>}
+          </div>
+
+          <div className="form-group">
+            <label>Email *</label>
+            <input type="email" name="email" placeholder="Enter your email" {...register("email")} />
+            {errors.email && <p className="error-message">{errors.email.message}</p>}
+          </div>
+        </div>
+
+        {/* Country and State dropdowns */}
+        <div className="form-row">
+          <div className="form-group">
+            <label>Country *</label>
+            <select name="country" {...register("country")} onChange={handleCountryChange}>
+              <option value="">Select your Country</option>
+              {countries.map(country => (
+                <option key={country.alpha2Code} value={country.name}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+            {errors.country && <p className="error-message">{errors.country.message}</p>}
+          </div>
+
+          <div className="form-group">
+            <label>State *</label>
+            <select name="state" {...register("state")} onChange={handleStateChange}>
+              <option value="">Select your State</option>
+              {states.map(state => (
+                <option key={state.name} value={state.name}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
+            {errors.state && <p className="error-message">{errors.state.message}</p>}
+          </div>
+        </div>
+
+        {/* City and Pincode */}
+        <div className="form-row">
+          <div className="form-group">
+            <label>City *</label>
+            <select name="city" {...register("city")}>
+              <option value="">Select your City</option>
+              {cities.map(city => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+            {errors.city && <p className="error-message">{errors.city.message}</p>}
+          </div>
+
+          <div className="form-group">
+            <label>Pincode *</label>
+            <input type="text" name="pincode" placeholder="Enter your pincode" {...register("pincode")} />
+            {errors.pincode && <p className="error-message">{errors.pincode.message}</p>}
+          </div>
+        </div>
+
+        {/* Address */}
+        <div className="form-row">
+          <div className="form-group full-width">
+            <label>Address *</label>
+            <textarea name="address" placeholder="Enter your address" {...register("address")}></textarea>
+            {errors.address && <p className="error-message">{errors.address.message}</p>}
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <button className="submit-btn" type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default FormPage;

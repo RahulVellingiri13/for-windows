@@ -1,0 +1,96 @@
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white; 
+    height: 100vh;
+  }
+  
+  .form-wrapper {
+    background-color:#DBE1DF; 
+    padding: 30px;
+    border-radius: 8px;
+    width: 600px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-title {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .form-group label {
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f3f4f6; 
+  }
+  
+  textarea {
+    resize: none;
+    height: 80px;
+  }
+  
+  .error-message {
+    font-size: 12px;
+    color: red;
+    margin-top: 5px;
+  }
+  
+  .submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .terms {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .terms a {
+    text-decoration: none;
+    color: #007bff;
+  }
